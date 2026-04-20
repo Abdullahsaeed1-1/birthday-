@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday, Abdul Rasikh 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #080808;
+      --bg-secondary: #0f0f0f;
+      --bg-card: #141414;
+      --gold: #E8C547;
+      --gold-dim: #a88a2e;
+      --gold-glow: rgba(232, 197, 71, 0.35);
+      --amber: #FF8C42;
+      --white: #f5f5f5;
+      --gray: #888888;
+      --gray-dim: #444444;
+      --red-accent: #c0392b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--white);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+      background: var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.1s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; width: 44px; height: 44px;
+      border: 1.5px solid var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
+      opacity: 0.6;
+    }
+
+    /* ─── LOADER ─── */
+    #loader {
+      position: fixed; inset: 0; background: #000;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 10000; transition: opacity 0.8s ease;
+    }
+    #loader .loader-text {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.75rem, 1.5vw, 1rem);
+      color: var(--gold);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s forwards;
+    }
+    #loader .loader-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+      text-align: center;
+    }
+    #loader .loader-name span { color: var(--gold); }
+    #loader .loader-bar-wrap {
+      width: min(420px, 80vw); height: 2px;
+      background: #1a1a1a; margin-top: 3rem; border-radius: 2px;
+      overflow: hidden; opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+    #loader .loader-bar {
+      height: 100%; width: 0%; background: var(--gold);
+      border-radius: 2px; animation: loadBar 2.2s 0.9s ease forwards;
+    }
+    @keyframes loadBar { to { width: 100%; } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── THREE.JS CANVAS ─── */
+    #bg-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 0.55;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 1.4rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      backdrop-filter: blur(12px);
+      background: rgba(8,8,8,0.55);
+      border-bottom: 1px solid rgba(232,197,71,0.08);
+    }
+    nav .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem; letter-spacing: 0.35em;
+      color: var(--gold); text-transform: uppercase;
+    }
+    nav ul {
+      list-style: none; display: flex; gap: 2.8rem;
+    }
+    nav ul a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.25em;
+      color: var(--gray); text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    nav ul a:hover { color: var(--gold); }
+
+    /* ─── SECTIONS ─── */
+    section { position: relative; z-index: 1; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      overflow: hidden;
+    }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.65rem, 1.2vw, 0.82rem);
+      letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 2rem;
+      opacity: 0; transform: translateY(30px);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 9.5rem);
+      font-weight: 900; line-height: 0.92;
+      color: #fff; margin-bottom: 1.2rem;
+      opacity: 0; transform: translateY(40px);
+      text-shadow: 0 0 120px rgba(232,197,71,0.18);
+    }
+    .hero-title .gold { color: var(--gold); }
+    .hero-title .italic { font-style: italic; }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6.5vw, 6.5rem);
+      font-weight: 400; font-style: italic;
+      color: var(--gold);
+      line-height: 1; margin-bottom: 2.5rem;
+      opacity: 0; transform: translateY(40px);
+      text-shadow: 0 0 80px var(--gold-glow);
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      color: var(--gray); font-style: italic;
+      max-width: 560px; line-height: 1.65;
+      opacity: 0; transform: translateY(30px); margin-bottom: 3.5rem;
+    }
+    .hero-btns {
+      display: flex; gap: 1.4rem; flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0; transform: translateY(30px);
+    }
+
+    /* ─── 3D BUTTONS ─── */
+    .btn-3d {
+      position: relative; display: inline-block;
+      padding: 0.9rem 2.4rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.28em;
+      text-transform: uppercase; text-decoration: none;
+      color: #000; background: var(--gold);
+      border: none; cursor: none;
+      transform-style: preserve-3d;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 8px 0 var(--gold-dim), 0 10px 25px rgba(232,197,71,0.3);
+    }
+    .btn-3d:hover {
+      transform: translateY(-4px) rotateX(8deg);
+      box-shadow: 0 14px 0 var(--gold-dim), 0 18px 40px rgba(232,197,71,0.45);
+    }
+    .btn-3d:active {
+      transform: translateY(4px) rotateX(-4deg);
+      box-shadow: 0 2px 0 var(--gold-dim), 0 4px 12px rgba(232,197,71,0.2);
+    }
+    .btn-outline {
+      background: transparent; color: var(--gold);
+      border: 1.5px solid var(--gold);
+      box-shadow: 0 8px 0 var(--gold-dim), 0 10px 25px rgba(232,197,71,0.15);
+    }
+    .btn-outline:hover {
+      background: rgba(232,197,71,0.08);
+      box-shadow: 0 14px 0 var(--gold-dim), 0 18px 40px rgba(232,197,71,0.25);
+    }
+
+    /* ─── PHOTO SECTION ─── */
+    #photo-section {
+      padding: 8rem 4rem;
+      display: flex; gap: 6rem;
+      align-items: center; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .photo-card-wrap {
+      perspective: 1000px;
+    }
+    .photo-card {
+      width: min(380px, 88vw); height: min(480px, 110vw);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.23,1,0.32,1);
+      border-radius: 4px;
+    }
+    .photo-card:hover { transform: rotateY(180deg); }
+    .card-front, .card-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      border-radius: 4px; overflow: hidden;
+    }
+    .card-front {
+      background: var(--bg-card);
+      border: 1px solid rgba(232,197,71,0.2);
+    }
+    .card-front img {
+      width: 100%; height: 78%; object-fit: cover;
+      display: block;
+      filter: grayscale(20%) contrast(1.05);
+    }
+    .card-front .img-placeholder {
+      width: 100%; height: 78%;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem;
+      font-size: 5rem; letter-spacing: -2px;
+    }
+    .card-front .img-placeholder p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem; letter-spacing: 0.3em;
+      color: var(--gray); text-transform: uppercase;
+    }
+    .card-front-info {
+      padding: 1.4rem 1.6rem;
+    }
+    .card-front-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: #fff;
+      margin-bottom: 0.3rem;
+    }
+    .card-front-info span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; color: var(--gold);
+      letter-spacing: 0.3em; text-transform: uppercase;
+    }
+    .card-back {
+      transform: rotateY(180deg);
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      padding: 2.5rem; text-align: center;
+    }
+    .card-back-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 900;
+      color: #000; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .card-back-content p {
+      font-size: 1.05rem; color: #222; line-height: 1.6;
+    }
+
+    .photo-text { max-width: 480px; }
+    .photo-text .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.45em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 1.5rem; display: block;
+    }
+    .photo-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700; color: #fff; line-height: 1.15;
+      margin-bottom: 1.8rem;
+    }
+    .photo-text h2 em { font-style: italic; color: var(--gold); }
+    .photo-text p {
+      font-size: 1.15rem; line-height: 1.75;
+      color: #aaa; margin-bottom: 1.2rem;
+    }
+
+    /* ─── CHEMISTRY SECTION ─── */
+    #chemistry {
+      padding: 9rem 4rem;
+      background: linear-gradient(180deg, transparent, rgba(232,197,71,0.03), transparent);
+      text-align: center;
+    }
+    .chem-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.45em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 1.8rem; display: block;
+    }
+    .chem-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900; color: #fff;
+      margin-bottom: 4rem; line-height: 1.1;
+    }
+    .chem-title em { font-style: italic; color: var(--gold); }
+    .chem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem; max-width: 1100px; margin: 0 auto;
+    }
+    .chem-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(232,197,71,0.1);
+      padding: 2.5rem 2rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1),
+                  border-color 0.3s, box-shadow 0.4s;
+      transform-style: preserve-3d;
+    }
+    .chem-card::before {
+      content: ''; position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(232,197,71,0.06) 0%, transparent 70%);
+      opacity: 0; transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .chem-card:hover {
+      transform: translateY(-8px) rotateX(4deg) rotateY(-2deg);
+      border-color: rgba(232,197,71,0.4);
+      box-shadow: 0 20px 60px rgba(232,197,71,0.12);
+    }
+    .chem-card:hover::before { opacity: 1; }
+    .chem-card .icon {
+      font-size: 3rem; margin-bottom: 1.2rem; display: block;
+    }
+    .chem-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; color: #fff;
+      margin-bottom: 0.8rem;
+    }
+    .chem-card p {
+      font-size: 1rem; color: var(--gray); line-height: 1.65;
+    }
+    .chem-card .element-badge {
+      position: absolute; top: 1.2rem; right: 1.2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.2em;
+      color: var(--gold); padding: 0.25rem 0.6rem;
+      border: 1px solid rgba(232,197,71,0.25);
+      text-transform: uppercase;
+    }
+
+    /* ─── MESSAGE SECTION ─── */
+    #message {
+      padding: 9rem 4rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .message-inner {
+      max-width: 780px; text-align: center;
+      position: relative;
+    }
+    .big-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem, 16vw, 14rem);
+      font-weight: 900; font-style: italic;
+      color: rgba(232,197,71,0.06);
+      position: absolute; top: -3rem; left: -2rem;
+      line-height: 1; pointer-events: none;
+      user-select: none;
+    }
+    .message-inner .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.45em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 2rem; display: block;
+    }
+    .message-body {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 400; font-style: italic;
+      line-height: 1.55; color: #ddd;
+      margin-bottom: 2.5rem;
+    }
+    .message-body strong { color: var(--gold); font-style: normal; font-weight: 700; }
+    .message-from {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; letter-spacing: 0.3em;
+      color: var(--gray); text-transform: uppercase;
+    }
+    .message-from span { color: var(--gold); }
+
+    /* ─── SURPRISES SECTION ─── */
+    #surprises {
+      padding: 9rem 4rem;
+      text-align: center;
+    }
+    .surp-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+      font-weight: 900; color: #fff; margin-bottom: 1rem;
+    }
+    .surp-title .gold { color: var(--gold); }
+    .surp-sub {
+      color: var(--gray); font-size: 1.1rem;
+      margin-bottom: 5rem; font-style: italic;
+    }
+    .surp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; max-width: 1000px; margin: 0 auto 4rem;
+    }
+    .surp-card {
+      perspective: 700px;
+      cursor: none; height: 280px;
+    }
+    .surp-card-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.23,1,0.32,1);
+    }
+    .surp-card:hover .surp-card-inner,
+    .surp-card.flipped .surp-card-inner { transform: rotateY(180deg); }
+    .surp-front, .surp-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 2rem;
+      border-radius: 2px;
+    }
+    .surp-front {
+      background: var(--bg-card);
+      border: 1px solid rgba(232,197,71,0.12);
+    }
+    .surp-front .emoji { font-size: 3.5rem; margin-bottom: 1rem; }
+    .surp-front h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: #fff; font-weight: 700;
+    }
+    .surp-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, #1a1208, #2a1e08);
+      border: 1px solid var(--gold);
+    }
+    .surp-back p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; line-height: 1.6;
+      color: var(--gold); text-align: center;
+    }
+
+    /* ─── CONFETTI BUTTON ─── */
+    .confetti-btn-wrap { margin-top: 1rem; text-align: center; }
+    #confetti-btn {
+      position: relative;
+      padding: 1.1rem 3rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-style: italic;
+      letter-spacing: 0.05em;
+      color: #000; background: var(--gold);
+      border: none; cursor: none;
+      transform-style: preserve-3d;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 10px 0 var(--gold-dim), 0 14px 30px rgba(232,197,71,0.4);
+      overflow: hidden;
+    }
+    #confetti-btn:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 16px 0 var(--gold-dim), 0 22px 50px rgba(232,197,71,0.5);
+    }
+    #confetti-btn:active {
+      transform: translateY(5px) scale(0.98);
+      box-shadow: 0 3px 0 var(--gold-dim);
+    }
+
+    /* ─── CONFETTI PARTICLE ─── */
+    .confetti-piece {
+      position: fixed;
+      width: 8px; height: 8px;
+      pointer-events: none;
+      z-index: 9990;
+      border-radius: 2px;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ─── STATS / NUMBERS ─── */
+    #stats {
+      padding: 6rem 4rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid rgba(232,197,71,0.06);
+      border-bottom: 1px solid rgba(232,197,71,0.06);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem; max-width: 900px; margin: 0 auto;
+      text-align: center;
+    }
+    .stat-item .number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900; color: var(--gold);
+      line-height: 1; display: block;
+    }
+    .stat-item .label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.4em;
+      color: var(--gray); text-transform: uppercase;
+      margin-top: 0.6rem; display: block;
+    }
+
+    /* ─── WISHES ─── */
+    #wishes {
+      padding: 9rem 4rem; text-align: center;
+    }
+    .wishes-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900; color: #fff; margin-bottom: 4rem;
+    }
+    .wishes-title em { font-style: italic; color: var(--gold); }
+    .wishes-list {
+      display: flex; flex-direction: column;
+      gap: 1.2rem; max-width: 720px; margin: 0 auto 5rem;
+    }
+    .wish-item {
+      display: flex; align-items: flex-start; gap: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid rgba(232,197,71,0.08);
+      padding: 1.6rem 2rem; text-align: left;
+      opacity: 0; transform: translateX(-40px);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .wish-item:hover {
+      border-color: rgba(232,197,71,0.3);
+      transform: translateX(6px) !important;
+    }
+    .wish-item .num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; color: var(--gold);
+      letter-spacing: 0.2em; min-width: 2.5rem;
+      padding-top: 0.2rem;
+    }
+    .wish-item p {
+      font-size: 1.1rem; line-height: 1.65; color: #bbb;
+    }
+    .wish-item p strong { color: #fff; }
+
+    /* ─── FINAL SECTION ─── */
+    #final {
+      min-height: 80vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(232,197,71,0.05), transparent);
+    }
+    .final-inner {}
+    .final-inner .top-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.45em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 2rem; display: block;
+    }
+    .final-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 8rem);
+      font-weight: 900; font-style: italic;
+      line-height: 0.95;
+      background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #fff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2.5rem;
+    }
+    .final-sub {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--gray); font-style: italic;
+      margin-bottom: 4rem; max-width: 560px; margin-left: auto; margin-right: auto;
+      line-height: 1.6;
+    }
+    .cake-wrap {
+      font-size: 6rem; margin-bottom: 2rem;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-18px) rotate(3deg); }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #000; border-top: 1px solid #1a1a1a;
+      padding: 2.5rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.25em;
+      color: #444; text-transform: uppercase;
+    }
+    footer p span { color: var(--gold); }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      display: flex; align-items: center; gap: 2rem;
+      max-width: 200px; margin: 0 auto 3rem;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(232,197,71,0.25);
+    }
+    .divider-icon { color: var(--gold); font-size: 0.8rem; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── FLOATING PARTICLES (CSS) ─── */
+    .particle {
+      position: fixed;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: particleFloat linear infinite;
+    }
+    @keyframes particleFloat {
+      0%   { transform: translateY(110vh) scale(0); opacity: 0; }
+      5%   { opacity: 0.4; }
+      95%  { opacity: 0.15; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* ─── GLOW LINE ─── */
+    .glow-line {
+      width: 80px; height: 2px;
+      background: var(--gold);
+      margin: 0 auto 2rem;
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    /* ─── RIBBON BADGE ─── */
+    .ribbon {
+      position: absolute; top: 1.2rem; right: -0.6rem;
+      background: var(--gold); color: #000;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%, 0 50%);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.4rem; }
+      #photo-section { padding: 5rem 1.5rem; gap: 3rem; }
+      #chemistry, #message, #surprises, #wishes, #final { padding: 6rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <p class="loader-text">A Special Day Awaits</p>
+  <h1 class="loader-name">Abdul <span>Rasikh</span></h1>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- Three.js BG -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <span class="logo">AR ✦ Birthday</span>
+  <ul>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#chemistry">Legacy</a></li>
+    <li><a href="#message">Message</a></li>
+    <li><a href="#wishes">Wishes</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section id="hero">
+  <p class="hero-eyebrow">✦ &nbsp; A golden day, a golden person &nbsp; ✦</p>
+  <h1 class="hero-title"><span class="gold">Happy</span></h1>
+  <h1 class="hero-title" style="margin-top:-0.5rem;"><span class="italic">Birthday</span></h1>
+  <h2 class="hero-name">Abdul Rasikh</h2>
+  <p class="hero-sub">To the man who taught not just chemistry — but the formula for being a great human being.</p>
+  <div class="hero-btns">
+    <button class="btn-3d" onclick="document.getElementById('message').scrollIntoView({behavior:'smooth'})">Read His Message</button>
+    <button class="btn-3d btn-outline" onclick="document.getElementById('surprises').scrollIntoView({behavior:'smooth'})">Open Surprises 🎁</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PHOTO ═══════════════════════════ -->
+<section id="photo-section">
+  <div class="photo-card-wrap reveal">
+    <div class="photo-card">
+      <div class="card-front">
+        <!-- 👉 REPLACE src="" WITH ACTUAL PHOTO URL -->
+        <img src="rasik.jpeg" alt="Abdul Rasikh" />
+        <div class="card-front-info">
+          <h3>Abdul Rasikh</h3>
+          <span>The Chemistry Legend ✦ Teacher ✦ Friend</span>
+        </div>
+      </div>
+      <div class="card-back">
+        <div class="card-back-content">
+          <h3>This one's for you, Rasikh bhai.</h3>
+          <p>Hover was just the start. Every moment with you has been a celebration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="photo-text reveal">
+    <span class="section-label">✦ The Man of the Hour</span>
+    <h2>A rare kind of <em>brilliance</em> walks among us.</h2>
+    <p>There are teachers who teach subjects, and then there are rare souls who teach you how to think, how to question, how to understand the world at a molecular level.</p>
+    <p>Abdul Rasikh is that rare soul. On this special day, we celebrate not just a birthday — but a life that has genuinely made others richer for knowing him.</p>
+    <div style="margin-top:2rem;">
+      <button class="btn-3d" onclick="launchConfetti()">🎉 Celebrate!</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CHEMISTRY ═══════════════════════════ -->
+<section id="chemistry">
+  <span class="chem-label">✦ His Greatest Elements</span>
+  <h2 class="chem-title">The <em>Periodic Table</em><br>of Abdul Rasikh</h2>
+  <div class="chem-grid">
+    <div class="chem-card reveal">
+      <span class="element-badge">Rk · 01</span>
+      <span class="icon">🧪</span>
+      <h3>Chemistry Wizard</h3>
+      <p>He didn't just teach chemistry — he made electrons feel personal. Every reaction, every equation came alive under his guidance.</p>
+    </div>
+    <div class="chem-card reveal" style="transition-delay:0.1s">
+      <span class="element-badge">Rk · 02</span>
+      <span class="icon">🧠</span>
+      <h3>Sharp Intellect</h3>
+      <p>A mind that cuts through complexity the way a catalyst accelerates a reaction — effortlessly, brilliantly, and without losing its essence.</p>
+    </div>
+    <div class="chem-card reveal" style="transition-delay:0.2s">
+      <span class="element-badge">Rk · 03</span>
+      <span class="icon">🤝</span>
+      <h3>Loyal Friend</h3>
+      <p>In every bond — covalent or otherwise — he holds his end with strength, loyalty, and a warmth that never fades under pressure.</p>
+    </div>
+    <div class="chem-card reveal" style="transition-delay:0.3s">
+      <span class="element-badge">Rk · 04</span>
+      <span class="icon">😂</span>
+      <h3>Infectious Humor</h3>
+      <p>His laughter is exothermic — it releases more energy than it takes in, warming every room he enters and every person around him.</p>
+    </div>
+    <div class="chem-card reveal" style="transition-delay:0.4s">
+      <span class="element-badge">Rk · 05</span>
+      <span class="icon">⭐</span>
+      <h3>Born Leader</h3>
+      <p>Like an element in its most stable state, he brings equilibrium wherever he goes — balancing people, ideas, and situations with ease.</p>
+    </div>
+    <div class="chem-card reveal" style="transition-delay:0.5s">
+      <span class="element-badge">Rk · 06</span>
+      <span class="icon">🔥</span>
+      <h3>Unstoppable Drive</h3>
+      <p>His energy is neither created nor destroyed — it transforms, adapts, and keeps burning no matter what challenge stands in the way.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ STATS ═══════════════════════════ -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <span class="number" data-count="100">0</span>
+      <span class="label">% Chemistry Mastery</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.1s">
+      <span class="number" data-count="365">0</span>
+      <span class="label">Days of Memories</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.2s">
+      <span class="number" data-count="1">0</span>
+      <span class="label">Friend Like Him</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.3s">
+      <span class="number" data-count="∞" data-special>∞</span>
+      <span class="label">Wishes From Us</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ MESSAGE ═══════════════════════════ -->
+<section id="message">
+  <div class="message-inner reveal">
+    <span class="big-quote">"</span>
+    <span class="tag">✦ A Personal Message</span>
+    <div class="glow-line"></div>
+    <p class="message-body">
+      Rasikh bhai, <strong>you taught me chemistry</strong> — but more than that, you taught me that <strong>the best reactions in life happen between real people.</strong> You've been the kind of friend who shows up without being called, who teaches without being asked, and who <strong>makes the hardest equations feel solvable.</strong> I'm late with this wish — <em>but no reaction waits for the right moment,</em> it happens when conditions are right. And today, every condition is perfect. <strong>Happy Birthday, you absolute legend.</strong>
+    </p>
+    <p class="message-from">— With love from <span>Abdullah</span> 🎂</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ SURPRISES ═══════════════════════════ -->
+<section id="surprises">
+  <span style="font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:1.5rem;">✦ Hover the Cards</span>
+  <h2 class="surp-title">Three <span class="gold">Golden</span> Surprises</h2>
+  <p class="surp-sub">Every card holds something special. Hover to reveal.</p>
+  <div class="surp-grid">
+    <div class="surp-card reveal">
+      <div class="surp-card-inner">
+        <div class="surp-front">
+          <span class="emoji">🎂</span>
+          <h4>Surprise #1</h4>
+          <p style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--gray);margin-top:0.5rem;letter-spacing:0.2em;">HOVER TO REVEAL</p>
+        </div>
+        <div class="surp-back">
+          <p>May this year be your best reaction yet — full of energy, high yield, and zero side products. You deserve every great thing coming your way. 🌟</p>
+        </div>
+      </div>
+    </div>
+    <div class="surp-card reveal" style="transition-delay:0.15s">
+      <div class="surp-card-inner">
+        <div class="surp-front">
+          <span class="emoji">🏆</span>
+          <h4>Surprise #2</h4>
+          <p style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--gray);margin-top:0.5rem;letter-spacing:0.2em;">HOVER TO REVEAL</p>
+        </div>
+        <div class="surp-back">
+          <p>You once turned a confusing periodic table into poetry. Watching you do that changed how I see learning. You're a rare element, Rasikh bhai — truly irreplaceable. ⚗️</p>
+        </div>
+      </div>
+    </div>
+    <div class="surp-card reveal" style="transition-delay:0.3s">
+      <div class="surp-card-inner">
+        <div class="surp-front">
+          <span class="emoji">🎁</span>
+          <h4>Surprise #3</h4>
+          <p style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--gray);margin-top:0.5rem;letter-spacing:0.2em;">HOVER TO REVEAL</p>
+        </div>
+        <div class="surp-back">
+          <p>I made you this entire website from scratch just to say: You mattered. You still matter. And you always will. This is what a late wish looks like when it comes from the heart. 💛</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="confetti-btn-wrap reveal">
+    <button id="confetti-btn" onclick="launchConfetti()">🎉 &nbsp; Launch the Celebration &nbsp; 🎉</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ WISHES ═══════════════════════════ -->
+<section id="wishes">
+  <h2 class="wishes-title reveal">10 Wishes for the <em>Legend</em></h2>
+  <div class="wishes-list">
+    <div class="wish-item">
+      <span class="num">01</span>
+      <p>May every goal you've set for yourself this year <strong>react instantly</strong> — no activation energy needed.</p>
+    </div>
+    <div class="wish-item">
+      <span class="num">02</span>
+      <p>May your happiness be <strong>exothermic</strong> — always releasing more than it absorbs.</p>
+    </div>
+    <div class="wish-item">
+      <span class="num">03</span>
+      <p>May the people around you recognize <strong>exactly how rare you are</strong> — like element 118 in real life.</p>
+    </div>
+    <div class="wish-item">
+      <span class="num">04</span>
+      <p>May success come to you the way you explained electron configuration — <strong>clear, structured, and inevitable.</strong></p>
+    </div>
+    <div class="wish-item">
+      <span class="num">05</span>
+      <p>May your dreams never decompose. May they only <strong>synthesize into something greater.</strong></p>
+    </div>
+    <div class="wish-item">
+      <span class="num">06</span>
+      <p>May every difficult phase of your life <strong>reach equilibrium fast</strong> and settle into something beautiful.</p>
+    </div>
+    <div class="wish-item">
+      <span class="num">07</span>
+      <p>May your life be written in <strong>gold ink</strong> — and may you author every chapter exactly as you choose.</p>
+    </div>
+    <div class="wish-item">
+      <span class="num">08</span>
+      <p>May laughter always be your <strong>catalyst</strong> — speeding up the good moments and making them last longer.</p>
+    </div>
+    <div class="wish-item">
+      <span class="num">09</span>
+      <p>May this birthday mark the beginning of your <strong>most stable, most brilliant, most powerful</strong> year yet.</p>
+    </div>
+    <div class="wish-item">
+      <span class="num">10</span>
+      <p>And most of all — may you always know that <strong>being your friend is one of the best things in my life.</strong> Happy Birthday, bhai. 🥂</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FINAL ═══════════════════════════ -->
+<section id="final">
+  <div class="final-inner">
+    <div class="cake-wrap">🎂</div>
+    <span class="top-text">✦ &nbsp; From all of us, with love &nbsp; ✦</span>
+    <h2 class="final-title">Happy<br>Birthday<br>Rasikh</h2>
+    <p class="final-sub">Sorry for being late — but the best reactions always take a little extra time to be perfect. Here's to you, bhai. 🥂</p>
+    <button class="btn-3d" style="font-size:0.85rem;padding:1rem 3rem;" onclick="launchConfetti()">🎉 Celebrate Again!</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Made with <span>♥</span> by Abdullah — your late but loving friend</p>
+  <p><span>Abdul Rasikh</span> · Birthday · 2025</p>
+</footer>
+
+<!-- ══════════════════════════ SCRIPTS ══════════════════════════ -->
+<script>
+/* ─── CURSOR ─── */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function animCursor() {
+  rx += (mx - rx) * 0.18;
+  ry += (my - ry) * 0.18;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+})();
+document.querySelectorAll('button, a, .surp-card, .chem-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2.2)'; ring.style.transform = 'translate(-50%,-50%) scale(1.4)'; ring.style.opacity = '0.9'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.opacity = '0.6'; });
+});
+
+/* ─── LOADER ─── */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const l = document.getElementById('loader');
+    l.style.opacity = '0';
+    l.style.pointerEvents = 'none';
+    setTimeout(() => { l.style.display = 'none'; initHeroAnim(); }, 800);
+  }, 3200);
+});
+
+/* ─── HERO ANIMATION ─── */
+function initHeroAnim() {
+  gsap.registerPlugin(ScrollTrigger);
+  const heroEls = ['.hero-eyebrow','.hero-title','.hero-name','.hero-sub','.hero-btns'];
+  gsap.to(heroEls, { opacity:1, y:0, duration:1.1, stagger:0.18, ease:'power3.out', delay:0.2 });
+  initScrollReveal();
+  initCounters();
+  initThreeBG();
+  spawnFloatingParticles();
+}
+
+/* ─── THREE.JS BACKGROUND ─── */
+function initThreeBG() {
+  const canvas = document.getElementById('bg-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 28;
+
+  const geo = new THREE.BufferGeometry();
+  const count = 1800;
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * 80;
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+
+  const mat = new THREE.PointsMaterial({ color: 0xE8C547, size: 0.14, transparent: true, opacity: 0.75 });
+  const stars = new THREE.Points(geo, mat);
+  scene.add(stars);
+
+  // Gold orbit rings
+  for (let i = 0; i < 3; i++) {
+    const rGeo = new THREE.TorusGeometry(8 + i * 5, 0.04, 8, 120);
+    const rMat = new THREE.MeshBasicMaterial({ color: 0xE8C547, transparent: true, opacity: 0.08 - i * 0.02 });
+    const ring = new THREE.Mesh(rGeo, rMat);
+    ring.rotation.x = Math.PI / 3 + i * 0.3;
+    ring.rotation.y = i * 0.5;
+    scene.add(ring);
+  }
+
+  let mouse = { x: 0, y: 0 };
+  document.addEventListener('mousemove', e => {
+    mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    stars.rotation.y += 0.0004;
+    stars.rotation.x += 0.0001;
+    camera.position.x += (mouse.x * 2 - camera.position.x) * 0.02;
+    camera.position.y += (mouse.y * 1.5 - camera.position.y) * 0.02;
+    scene.children.slice(1).forEach((r, i) => {
+      r.rotation.z += 0.001 * (i + 1);
+      r.rotation.x += 0.0005;
+    });
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+
+/* ─── SCROLL REVEAL ─── */
+function initScrollReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        const delay = e.target.style.transitionDelay || '0s';
+        // counter trigger
+        if (e.target.closest('#stats')) triggerCounters();
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(el => io.observe(el));
+
+  // Wish items
+  const wishItems = document.querySelectorAll('.wish-item');
+  const wishIO = new IntersectionObserver((entries) => {
+    entries.forEach((e, idx) => {
+      if (e.isIntersecting) {
+        setTimeout(() => {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateX(0)';
+        }, idx * 90);
+      }
+    });
+  }, { threshold: 0.1 });
+  wishItems.forEach(el => wishIO.observe(el));
+}
+
+/* ─── COUNTERS ─── */
+let countersTriggered = false;
+function triggerCounters() {
+  if (countersTriggered) return;
+  countersTriggered = true;
+  document.querySelectorAll('.number[data-count]').forEach(el => {
+    if (el.dataset.special) return;
+    const target = parseInt(el.dataset.count);
+    let current = 0;
+    const step = Math.ceil(target / 60);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current;
+      if (current >= target) clearInterval(interval);
+    }, 28);
+  });
+}
+function initCounters() {}
+
+/* ─── CONFETTI ─── */
+function launchConfetti() {
+  const colors = ['#E8C547','#FF8C42','#fff','#FFD700','#FFA07A','#F5F5DC','#FFEC8B'];
+  for (let i = 0; i < 160; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.cssText = `
+        left:${Math.random()*100}vw;
+        top:${Math.random()*30 - 20}vh;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        width:${4 + Math.random()*8}px;
+        height:${4 + Math.random()*8}px;
+        border-radius:${Math.random()>0.5?'50%':'2px'};
+        animation-duration:${1.8 + Math.random()*2.5}s;
+        animation-delay:${Math.random()*0.5}s;
+      `;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 5000);
+    }, i * 14);
+  }
+}
+
+/* ─── FLOATING CSS PARTICLES ─── */
+function spawnFloatingParticles() {
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 2 + Math.random() * 4;
+    p.style.cssText = `
+      left:${Math.random()*100}vw;
+      width:${size}px; height:${size}px;
+      animation-duration:${8 + Math.random()*12}s;
+      animation-delay:${Math.random()*12}s;
+      opacity:0;
+    `;
+    document.body.appendChild(p);
+  }
+}
+
+/* ─── 3D CARD MOUSE TILT ─── */
+document.querySelectorAll('.chem-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `translateY(-8px) rotateY(${x*14}deg) rotateX(${-y*10}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+/* ─── PARALLAX HERO ─── */
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  const heroTitle = document.querySelectorAll('.hero-title, .hero-name, .hero-eyebrow');
+  heroTitle.forEach((el, i) => {
+    el.style.transform = `translateY(${sy * (0.12 + i * 0.04)}px)`;
+  });
+});
+
+/* ─── CLICK RIPPLE on 3D buttons ─── */
+document.querySelectorAll('.btn-3d').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const circle = document.createElement('span');
+    const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+    const radius = diameter / 2;
+    circle.style.cssText = `
+      position:absolute; border-radius:50%;
+      width:${diameter}px; height:${diameter}px;
+      top:${e.clientY - btn.getBoundingClientRect().top - radius}px;
+      left:${e.clientX - btn.getBoundingClientRect().left - radius}px;
+      background:rgba(255,255,255,0.3);
+      transform:scale(0); pointer-events:none;
+      animation:ripple 0.6s linear;
+    `;
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+    btn.appendChild(circle);
+    setTimeout(() => circle.remove(), 700);
+  });
+});
+
+const style = document.createElement('style');
+style.textContent = `@keyframes ripple { to { transform:scale(3); opacity:0; } }`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
